@@ -30,7 +30,6 @@ export const useMainhook = () => {
   const [showCamera, SetShowCamera] = useState(true);
   const [shouldSaveData, setShouldSaveData] = useState(false);
   const [isHandleStartClicked, setIsHandleStartClicked] = useState(false);
-  const [countErr, setCountErr] = useState(0);
   const {
     language,
     scorePrompt,
@@ -109,19 +108,23 @@ export const useMainhook = () => {
 
     let voice;
     try {
-      voice = await createSpeech(question);
-      const audioBlob = new Blob([voice.data], { type: "audio/mp3" });
-      const audioUrl = URL.createObjectURL(audioBlob);
-      const audio = new Audio(audioUrl);
+      // voice = await createSpeech(question);
+      // const audioBlob = new Blob([voice.data], { type: "audio/mp3" });
+      // const audioUrl = URL.createObjectURL(audioBlob);
+      // const audio = new Audio(audioUrl);
+      // setIsSystemSpeaking(true);
+      // setIsLoading(false);
+      // setShowAnsBox("Listen carefully ...!");
 
       // //! use myra.ai for girl best audio....
-      // voice = await createSpeech(question, wantVoice, wantNative);
-      // const audioUrl = voice.audioFile;
-      // const audio = new Audio(audioUrl);
-
-      setIsSystemSpeaking(true);
-      setIsLoading(false);
-      setShowAnsBox(question);
+      voice = await createSpeech(question, wantVoice, wantNative);
+      const audioUrl = voice.audioFile;
+      const audio = new Audio(audioUrl);
+      setTimeout(() => {
+        setIsSystemSpeaking(true);
+        setIsLoading(false);
+        setShowAnsBox("Listen carefully ...!");
+      }, 2000);
       await playAudio(audio);
 
       setShowAnsBox(false);
@@ -180,11 +183,8 @@ export const useMainhook = () => {
       dispatch(setNextQuestion(nextQues));
       setQuestionCount((prev) => prev + 1);
     } catch (error) {
-      setIsLoading(false);
-      setShowSpinerTimer(false);
-      setShowAnsBox(false);
-      setErrorx("No user response detected or error in listening");
-      return;
+      console.log("No user response detected or error in listening");
+      setErrorx("Something went wrong");
     } finally {
       setIsLoading(false);
       setShowSpinerTimer(false);
@@ -280,7 +280,6 @@ export const useMainhook = () => {
     handleReview,
     showThankYouMsg,
     showCamera,
-    setCountErr,
     setShouldSaveData,
     isHandleStartClicked,
   };

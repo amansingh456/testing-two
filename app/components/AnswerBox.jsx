@@ -6,35 +6,35 @@ export const AnswerBox = ({ text }) => {
   const words = text.split(" ");
   const scrollRef = useRef(null);
 
-  useEffect(() => {
-    if (words.length > 5 && !animationCompleted) {
-      const interval = setInterval(() => {
-        setHighlightIndex((prev) => {
-          if (prev + 1 === words.length) {
-            setAnimationCompleted(true);
-            clearInterval(interval);
-          }
-          return (prev + 1) % words.length;
-        });
-      }, 450);
-      return () => clearInterval(interval);
-    }
-  }, [words.length, animationCompleted]);
+  // useEffect(() => {
+  //   if (words.length > 5 && !animationCompleted) {
+  //     const interval = setInterval(() => {
+  //       setHighlightIndex((prev) => {
+  //         if (prev + 1 === words.length) {
+  //           setAnimationCompleted(true);
+  //           clearInterval(interval);
+  //         }
+  //         return (prev + 1) % words.length;
+  //       });
+  //     }, 450);
+  //     return () => clearInterval(interval);
+  //   }
+  // }, [words.length, animationCompleted]);
 
-  useEffect(() => {
-    if (!animationCompleted) {
-      const highlightedElement = scrollRef.current?.querySelector(
-        `span[data-index="${highlightIndex}"]`
-      );
-      if (highlightedElement) {
-        highlightedElement.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-          inline: "start",
-        });
-      }
-    }
-  }, [highlightIndex, animationCompleted]);
+  // useEffect(() => {
+  //   if (!animationCompleted) {
+  //     const highlightedElement = scrollRef.current?.querySelector(
+  //       `span[data-index="${highlightIndex}"]`
+  //     );
+  //     if (highlightedElement) {
+  //       highlightedElement.scrollIntoView({
+  //         behavior: "smooth",
+  //         block: "nearest",
+  //         inline: "start",
+  //       });
+  //     }
+  //   }
+  // }, [highlightIndex, animationCompleted]);
 
   return (
     <>
@@ -42,7 +42,7 @@ export const AnswerBox = ({ text }) => {
         ref={scrollRef}
         className="w-full h-auto max-h-[100px] overflow-y-auto overflow-x-hidden p-2 rounded-md text-sm text-black text-center focus:outline-none border border-[#DCDCDC]"
       >
-        {words.map((word, index) => (
+        {/* {words.map((word, index) => (
           <span
             key={index}
             data-index={index}
@@ -55,7 +55,8 @@ export const AnswerBox = ({ text }) => {
           >
             {word}
           </span>
-        ))}
+        ))} */}
+        {text}
       </div>
     </>
   );
